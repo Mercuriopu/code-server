@@ -1,5 +1,6 @@
 import { logger } from "@coder/logger"
 import express, { Express } from "express"
+import expressWs from "express-ws"
 import { promises as fs } from "fs"
 import http from "http"
 import * as httpolyglot from "httpolyglot"
@@ -37,6 +38,8 @@ export const createApp = async (args: DefaultedArgs): Promise<[Express, http.Ser
       server.listen(args.port, args.host.replace(/^\[|\]$/g, ""), resolve)
     }
   })
+
+  expressWs(app, server)
 
   return [app, server]
 }

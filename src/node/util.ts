@@ -261,3 +261,16 @@ export function canConnect(path: string): Promise<boolean> {
     })
   })
 }
+
+export function memo<T extends (...args: any[]) => ReturnType<T>>(fn: T): T {
+  let ran = false
+  let result: ReturnType<T>
+  function memoized(...args: any[]): ReturnType<T> {
+    if (!ran) {
+      result = fn(...args)
+      ran = true
+    }
+    return result
+  }
+  return memoized as T
+}
